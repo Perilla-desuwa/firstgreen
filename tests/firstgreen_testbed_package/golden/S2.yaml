@@ -1,0 +1,17 @@
+scenario: S2
+decision: decompose
+recommended_parallelism:
+  min: 2
+  max: 2
+task_count:
+  min: 2
+  max: 3
+risk_level: low
+required_semantic_tasks:
+  - cli_version
+  - health_commit
+forbidden_edges:
+  - [cli_version, health_commit]
+  - [health_commit, cli_version]
+required_final_barrier: true
+execution_allowed: true

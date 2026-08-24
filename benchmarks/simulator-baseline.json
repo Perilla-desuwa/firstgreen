@@ -1,0 +1,9 @@
+{
+  "kind": "synthetic_simulation_not_real_world_claim",
+  "seed": 7,
+  "tasks": 1000,
+  "policies": ["single", "always-race", "delayed-hedge", "auto"],
+  "reproduce": "firstgreen benchmark simulate examples/simulator.yaml",
+  "note": "Generate numeric results with the installed version; do not market simulator output as measured savings."
+}
+

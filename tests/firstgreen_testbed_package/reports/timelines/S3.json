@@ -1,0 +1,58 @@
+[
+  {
+    "attempt_id": "attempt_c108ff5a41374a5f9e9c84e83563c9cf",
+    "event": "started",
+    "role": "primary",
+    "task": "reset_email",
+    "time": 0.43699999999989814
+  },
+  {
+    "attempt_id": "attempt_3cf22c10433448fbb9e28bf463745e91",
+    "event": "started",
+    "role": "primary",
+    "task": "reset_token_model",
+    "time": 0.4679999999998472
+  },
+  {
+    "attempt_id": "attempt_3cf22c10433448fbb9e28bf463745e91",
+    "event": "completed",
+    "role": "primary",
+    "task": "reset_token_model",
+    "time": 0.7649999999994179
+  },
+  {
+    "attempt_id": "attempt_f159831c5f1241bea605d2acf034ee1a",
+    "event": "started",
+    "role": "primary",
+    "task": "reset_service",
+    "time": 2.030999999999949
+  },
+  {
+    "attempt_id": "attempt_f159831c5f1241bea605d2acf034ee1a",
+    "event": "completed",
+    "role": "primary",
+    "task": "reset_service",
+    "time": 2.342999999999847
+  },
+  {
+    "attempt_id": "attempt_c108ff5a41374a5f9e9c84e83563c9cf",
+    "event": "completed",
+    "role": "primary",
+    "task": "reset_email",
+    "time": 3.733999999999469
+  },
+  {
+    "attempt_id": "attempt_5ad0a0113bf34a39b6ecb5a80c7af313",
+    "event": "started",
+    "role": "primary",
+    "task": "reset_integration",
+    "time": 5.342999999999847
+  },
+  {
+    "attempt_id": "attempt_5ad0a0113bf34a39b6ecb5a80c7af313",
+    "event": "completed",
+    "role": "primary",
+    "task": "reset_integration",
+    "time": 5.625
+  }
+]

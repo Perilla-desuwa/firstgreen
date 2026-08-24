@@ -1,0 +1,24 @@
+{
+  "decision": "decompose",
+  "recommended_parallelism": 2,
+  "tasks": [
+    {
+      "id": "task-a",
+      "objective": "Implement artifact A.",
+      "produces": ["artifact-a"],
+      "requires": ["artifact-b"],
+      "likely_paths": ["app/a.py"],
+      "verification_hints": ["pytest -q tests/test_a.py"],
+      "risk_tags": []
+    },
+    {
+      "id": "task-b",
+      "objective": "Implement artifact B.",
+      "produces": ["artifact-b"],
+      "requires": ["artifact-a"],
+      "likely_paths": ["app/b.py"],
+      "verification_hints": ["pytest -q tests/test_b.py"],
+      "risk_tags": []
+    }
+  ]
+}

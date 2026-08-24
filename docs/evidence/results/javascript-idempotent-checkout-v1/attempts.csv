@@ -1,0 +1,4 @@
+task_key,status,winner_attempt_id,verified_at
+checkout-documentation,verified,attempt_fc3d388e30204e4cb512e40ae13ae6d5,2026-08-18T10:09:44.461353+00:00
+core-idempotent-checkout,verified,attempt_218b7cf5cec447dca8e6ecf7a7ddfaf3,2026-08-18T10:11:17.146971+00:00
+idempotent-checkout-tests,verified,attempt_bbaa690cd5fc4995909afb9303571907,2026-08-18T10:13:37.260212+00:00

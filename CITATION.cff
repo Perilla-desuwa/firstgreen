@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use FirstGreen, please cite this software release and its technical report."
+type: software
+title: "FirstGreen: HPC-Inspired Parallelism Extraction and Scheduling for Coding Agents"
+abstract: >-
+  A local-first runtime that extracts a bounded task DAG from a software-engineering goal and
+  schedules isolated coding agents along its critical path to reduce time to verified delivery.
+authors:
+  - family-names: "Perilla-desuwa"
+repository-code: "https://github.com/Perilla-desuwa/firstgreen"
+url: "https://github.com/Perilla-desuwa/firstgreen/releases/tag/v0.1.0-rc1"
+version: "0.1.0-rc1"
+date-released: "2026-08-25"
+license: Apache-2.0
+keywords:
+  - coding agents
+  - parallelism extraction
+  - scheduling
+  - high-performance computing
+  - developer infrastructure

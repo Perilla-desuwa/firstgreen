@@ -1,0 +1,42 @@
+version: 1
+project:
+  repo: .
+  base_ref: main
+scheduler:
+  concurrency:
+    mode: static
+    min_root: 1
+    max_root: 1
+    initial_root: 1
+    total_agent_thread_budget: 1
+    verifier_slots: 1
+  hedge:
+    enabled: false
+  budgets: {}
+agent_defaults:
+  adapter: codex_exec
+  sandbox: workspace-write
+  network_access: false
+  capture_sensitive_events: false
+  timeout_seconds: 600
+  max_subagent_threads: 1
+  config: {}
+verification_defaults:
+  all_must_pass: true
+  command_timeout_seconds: 60
+  max_output_bytes: 100000
+workspace: {}
+tasks:
+  - id: codex-readme-note
+    task_class: docs
+    prompt: >-
+      Add one concise sentence to a new file named CODEX_LIVE_DEMO.md explaining that this is a
+      FirstGreen live adapter smoke test. Do not modify any other file.
+    replay_safe: true
+    dependencies: []
+    verify:
+      commands:
+        - argv: ["python", "-c", "from pathlib import Path; assert Path('CODEX_LIVE_DEMO.md').is_file()"]
+      allowed_changed_paths:
+        - CODEX_LIVE_DEMO.md
+

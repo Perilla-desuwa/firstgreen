@@ -1,0 +1,69 @@
+% This is the only numeric/text data file normally edited when finalizing the report.
+% Keep every placeholder until the corresponding frozen evidence cell has been inspected.
+% Escape LaTeX special characters in free-text values.
+
+\newcommand{\FGReleaseVersion}{0.1.0-rc1}
+\newcommand{\FGAuthor}{Perilla-desuwa}
+\newcommand{\FGReleaseRevision}{v0.1.0-rc1}
+\newcommand{\FGRamseySourceRevision}{4a9a98954f95}
+\newcommand{\FGJavaScriptSourceRevision}{834de4296861}
+\newcommand{\FGCPAblationSourceRevision}{3c0a87122dc8}
+\newcommand{\FGEvidenceBundleChecksum}{the accompanying \texttt{.sha256} release asset}
+\newcommand{\FGExperimentDate}{2026-08-18}
+\newcommand{\FGHostSummary}{AMD Ryzen 7 7745HX; 16 logical processors; 63.69 GiB RAM; Windows 11; Python 3.12.13}
+\newcommand{\FGPlannerModel}{gpt-5.6-luna}
+\newcommand{\FGReasoningEffort}{low for Ramsey and TinyShop; medium planning and low worker reasoning for JavaScript}
+
+\newcommand{\FGRamseyRuns}{eight completed cells: slots 1/2/4/8, two repetitions each}
+\newcommand{\FGRamseyOneMedian}{503.29}
+\newcommand{\FGRamseyTwoMedian}{236.06}
+\newcommand{\FGRamseyFourMedian}{153.48}
+\newcommand{\FGRamseyEightMedian}{153.82}
+
+\newcommand{\FGRamseyOneRepOneTime}{446.45}
+\newcommand{\FGRamseyOneRepTwoTime}{560.13}
+\newcommand{\FGRamseyTwoRepOneTime}{263.05}
+\newcommand{\FGRamseyTwoRepTwoTime}{209.06}
+\newcommand{\FGRamseyFourRepOneTime}{139.69}
+\newcommand{\FGRamseyFourRepTwoTime}{167.28}
+\newcommand{\FGRamseyEightRepOneTime}{170.08}
+\newcommand{\FGRamseyEightRepTwoTime}{137.56}
+
+\newcommand{\FGRamseyOneRepOneSpeedup}{1.00}
+\newcommand{\FGRamseyOneRepTwoSpeedup}{0.80}
+\newcommand{\FGRamseyTwoRepOneSpeedup}{1.70}
+\newcommand{\FGRamseyTwoRepTwoSpeedup}{2.14}
+\newcommand{\FGRamseyFourRepOneSpeedup}{3.20}
+\newcommand{\FGRamseyFourRepTwoSpeedup}{2.67}
+\newcommand{\FGRamseyEightRepOneSpeedup}{2.62}
+\newcommand{\FGRamseyEightRepTwoSpeedup}{3.25}
+
+\newcommand{\FGRamseyOneRepOneEfficiency}{100.0\%}
+\newcommand{\FGRamseyOneRepTwoEfficiency}{79.7\%}
+\newcommand{\FGRamseyTwoRepOneEfficiency}{84.9\%}
+\newcommand{\FGRamseyTwoRepTwoEfficiency}{106.8\%}
+\newcommand{\FGRamseyFourRepOneEfficiency}{79.9\%}
+\newcommand{\FGRamseyFourRepTwoEfficiency}{66.7\%}
+\newcommand{\FGRamseyEightRepOneEfficiency}{32.8\%}
+\newcommand{\FGRamseyEightRepTwoEfficiency}{40.6\%}
+
+\newcommand{\FGRamseyOutcome}{All eight cells produced five transactional task winners and a verified final delivery. Median wall time fell from 503.29 seconds at one slot to 153.48 seconds at four slots; the eight-slot median was 153.82 seconds. The frozen graph therefore accelerated up to its ready width of four and showed no additional median improvement when overprovisioned to eight slots. Remote latency variation remained material.}
+
+\newcommand{\FGScriptedOne}{11.41}
+\newcommand{\FGScriptedTwo}{6.72}
+\newcommand{\FGScriptedFour}{5.91}
+\newcommand{\FGScriptedEight}{5.17}
+\newcommand{\FGScriptedSixteen}{5.78}
+
+\newcommand{\FGCPStableMedian}{8.984}
+\newcommand{\FGCPCriticalMedian}{7.766}
+\newcommand{\FGCPOutcome}{All six cells verified. Critical-path ranking selected the long chain first in all three repetitions and reduced median wall time by 13.56\% on this deterministic workload.}
+
+\newcommand{\FGTinyShopTasks}{two in each of two preserved observations}
+\newcommand{\FGTinyShopShape}{a serial implementation task followed by a test task (ready width one)}
+\newcommand{\FGTinyShopOutcome}{Both executions and final deliveries verified, but both failed the predeclared branch/join golden shape. This is a negative extraction result: correct delivery did not expose root-level speedup.}
+
+\newcommand{\FGJavaScriptTasks}{three}
+\newcommand{\FGJavaScriptShape}{two initially ready roots---core implementation and documentation---followed by dependent focused tests}
+\newcommand{\FGJavaScriptMakespan}{289.09}
+\newcommand{\FGJavaScriptOutcome}{The roots started 9.5 ms apart. Scheduler-owned verification rejected two primary attempts; bounded repairs passed, and final delivery verified all nine Node tests.}

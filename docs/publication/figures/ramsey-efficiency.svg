@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560"
+  viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Root-slot utilization by configured capacity</title>
+  <desc id="desc">Two repetitions per slot. Utilization is about 58 percent at four slots and 29 percent at eight slots because the frozen graph exposes only four root tasks.</desc>
+  <rect width="960" height="560" fill="#ffffff"/>
+  <style>
+    text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #17202a; }
+    .title { font-size: 24px; font-weight: 600; }
+    .subtitle { font-size: 14px; fill: #52606d; }
+    .axis { font-size: 13px; fill: #52606d; }
+    .point-label { font-size: 12px; font-weight: 600; }
+    .annotation { font-size: 13px; fill: #34495e; }
+  </style>
+  <text x="64" y="38" class="title">Useful capacity saturates after four slots</text>
+  <text x="64" y="62" class="subtitle">Root-slot utilization from persisted attempt intervals</text>
+  <rect x="730" y="82" width="174" height="370" fill="#f3f6f8"/>
+  <line x1="72" y1="452.0" x2="904" y2="452.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="60" y="457.0" text-anchor="end" class="axis">0%</text>
+  <line x1="72" y1="366.0" x2="904" y2="366.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="60" y="371.0" text-anchor="end" class="axis">25%</text>
+  <line x1="72" y1="280.0" x2="904" y2="280.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="60" y="285.0" text-anchor="end" class="axis">50%</text>
+  <line x1="72" y1="194.0" x2="904" y2="194.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="60" y="199.0" text-anchor="end" class="axis">75%</text>
+  <line x1="72" y1="108.0" x2="904" y2="108.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="60" y="113.0" text-anchor="end" class="axis">100%</text>
+  <line x1="72" y1="108" x2="72" y2="452" stroke="#697782" stroke-width="1.5"/>
+  <line x1="72" y1="452" x2="904" y2="452" stroke="#697782" stroke-width="1.5"/>
+  <text x="488" y="518" text-anchor="middle" class="axis">Root slots</text>
+  <line x1="130.0" y1="109.7" x2="130.0" y2="110.3" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="130.0" cy="110.3" r="7" fill="#2563eb"/>
+  <circle cx="130.0" cy="109.7" r="7" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+  <text x="130.0" y="92.0" text-anchor="middle" class="point-label">99.4%</text>
+  <text x="130.0" y="482" text-anchor="middle" class="axis">1</text>
+  <line x1="370.0" y1="171.1" x2="370.0" y2="171.1" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="370.0" cy="171.1" r="7" fill="#2563eb"/>
+  <circle cx="370.0" cy="171.1" r="7" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+  <text x="370.0" y="153.1" text-anchor="middle" class="point-label">81.6%</text>
+  <text x="370.0" y="482" text-anchor="middle" class="axis">2</text>
+  <line x1="610.0" y1="249.9" x2="610.0" y2="255.3" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="610.0" cy="255.3" r="7" fill="#2563eb"/>
+  <circle cx="610.0" cy="249.9" r="7" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+  <text x="610.0" y="234.6" text-anchor="middle" class="point-label">58.0%</text>
+  <text x="610.0" y="482" text-anchor="middle" class="axis">4</text>
+  <line x1="850.0" y1="350.6" x2="850.0" y2="350.9" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="850.0" cy="350.6" r="7" fill="#2563eb"/>
+  <circle cx="850.0" cy="350.9" r="7" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+  <text x="850.0" y="332.8" text-anchor="middle" class="point-label">29.4%</text>
+  <text x="850.0" y="482" text-anchor="middle" class="axis">8</text>
+  <text x="904" y="96" text-anchor="end" class="annotation">ready width = 4</text>
+  <text x="904" y="542" text-anchor="end" class="subtitle">8-slot utilization ≈ half of 4-slot utilization</text>
+</svg>

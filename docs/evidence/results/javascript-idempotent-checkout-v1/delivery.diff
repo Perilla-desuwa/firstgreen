@@ -1,0 +1,166 @@
+diff --git a/README.md b/README.md
+index 67f8102..36bc4ba 100644
+--- a/README.md
++++ b/README.md
+@@ -16,6 +16,20 @@ Run the clean baseline:
+ node --test
+ ```
+ 
++## Checkout submissions
++
++Checkout submissions require an `Idempotency-Key`. Pass it with the existing `sku` and `quantity`
++fields:
++
++```js
++checkout.submit({ sku: "green", quantity: 2, idempotencyKey: "order-123" });
++```
++
++The first successful submission for a key decrements inventory and returns a deterministic,
++canonical receipt. Repeating a valid submission with the same key returns that exact same receipt
++and does not decrement inventory again. A missing, empty, or otherwise invalid
++`Idempotency-Key` is rejected; invalid submissions do not create a stored result.
++
+ The repository is Apache-2.0 licensed and has its own Git history. FirstGreen must scan this
+ repository, propose bounded work units, compile dependencies and write ownership, obtain approval,
+ and execute the approved plan through its production scheduler.
+diff --git a/src/checkout.js b/src/checkout.js
+index 4aa777c..1f4f216 100644
+--- a/src/checkout.js
++++ b/src/checkout.js
+@@ -1,14 +1,38 @@
++/**
++ * Formats a checkout result in a stable, machine-readable representation.
++ * The field order is part of the receipt's canonical form.
++ */
++export function formatReceipt({ sku, quantity, remaining }) {
++  return JSON.stringify({ sku, quantity, remaining });
++}
++
+ export class CheckoutService {
++  #successfulSubmissions = new Map();
++
+   constructor(inventory) {
+     this.inventory = inventory;
+   }
+ 
+-  submit({ sku, quantity }) {
++  submit({ sku, quantity, idempotencyKey, "Idempotency-Key": headerKey } = {}) {
++    const suppliedKey = idempotencyKey ?? headerKey;
++    if (typeof suppliedKey !== "string" || suppliedKey.trim().length === 0) {
++      throw new TypeError("Idempotency-Key must be a non-empty string");
++    }
++
++    const previous = this.#successfulSubmissions.get(suppliedKey);
++    if (previous) {
++      return previous;
++    }
++
+     if (typeof sku !== "string" || sku.length === 0) {
+       throw new TypeError("sku must be a non-empty string");
+     }
+ 
+     const remaining = this.inventory.decrement(sku, quantity);
+-    return { sku, quantity, remaining };
++    const receipt = { sku, quantity, remaining };
++    // Store only after all validation and mutation succeeds. Returning this same
++    // object on replay also preserves the canonical receipt identity.
++    this.#successfulSubmissions.set(suppliedKey, receipt);
++    return receipt;
+   }
+ }
+diff --git a/test/checkout.test.js b/test/checkout.test.js
+index 6c72c72..50618d0 100644
+--- a/test/checkout.test.js
++++ b/test/checkout.test.js
+@@ -1,14 +1,14 @@
+ import assert from "node:assert/strict";
+ import test from "node:test";
+ 
+-import { CheckoutService } from "../src/checkout.js";
++import { CheckoutService, formatReceipt } from "../src/checkout.js";
+ import { Inventory } from "../src/inventory.js";
+ 
+ test("checkout decrements inventory and returns the current result", () => {
+   const inventory = new Inventory({ green: 4 });
+   const checkout = new CheckoutService(inventory);
+ 
+-  assert.deepEqual(checkout.submit({ sku: "green", quantity: 2 }), {
++  assert.deepEqual(checkout.submit({ sku: "green", quantity: 2, idempotencyKey: "order-1" }), {
+     sku: "green",
+     quantity: 2,
+     remaining: 2,
+@@ -16,8 +16,47 @@ test("checkout decrements inventory and returns the current result", () => {
+   assert.equal(inventory.available("green"), 2);
+ });
+ 
++test("formatReceipt produces the canonical stable receipt", () => {
++  assert.equal(
++    formatReceipt({ sku: "green", quantity: 2, remaining: 2 }),
++    '{"sku":"green","quantity":2,"remaining":2}',
++  );
++});
++
++test("duplicate keyed submissions replay the same receipt without decrementing twice", () => {
++  const inventory = new Inventory({ green: 4 });
++  const checkout = new CheckoutService(inventory);
++
++  const first = checkout.submit({ sku: "green", quantity: 2, idempotencyKey: "order-1" });
++  const duplicate = checkout.submit({ sku: "green", quantity: 2, idempotencyKey: "order-1" });
++
++  assert.strictEqual(duplicate, first);
++  assert.deepEqual(duplicate, { sku: "green", quantity: 2, remaining: 2 });
++  assert.equal(formatReceipt(duplicate), '{"sku":"green","quantity":2,"remaining":2}');
++  assert.equal(inventory.available("green"), 2);
++});
++
++test("checkout accepts the Idempotency-Key header spelling", () => {
++  const checkout = new CheckoutService(new Inventory({ green: 2 }));
++
++  assert.deepEqual(checkout.submit({ sku: "green", quantity: 1, "Idempotency-Key": "header-1" }), {
++    sku: "green",
++    quantity: 1,
++    remaining: 1,
++  });
++});
++
+ test("checkout validates the sku", () => {
+   const checkout = new CheckoutService(new Inventory({ green: 4 }));
+ 
+-  assert.throws(() => checkout.submit({ sku: "", quantity: 1 }), /non-empty string/);
++  assert.throws(() => checkout.submit({ sku: "", quantity: 1, idempotencyKey: "invalid-sku" }), /non-empty string/);
++});
++
++test("checkout rejects missing and invalid Idempotency-Key values", () => {
++  const checkout = new CheckoutService(new Inventory({ green: 4 }));
++
++  assert.throws(() => checkout.submit({ sku: "green", quantity: 1 }), /Idempotency-Key/);
++  assert.throws(() => checkout.submit({ sku: "green", quantity: 1, idempotencyKey: "" }), /Idempotency-Key/);
++  assert.throws(() => checkout.submit({ sku: "green", quantity: 1, idempotencyKey: "   " }), /Idempotency-Key/);
++  assert.throws(() => checkout.submit({ sku: "green", quantity: 1, idempotencyKey: 42 }), /Idempotency-Key/);
+ });
+diff --git a/test/inventory.test.js b/test/inventory.test.js
+index 6d590d3..7e52ff4 100644
+--- a/test/inventory.test.js
++++ b/test/inventory.test.js
+@@ -1,6 +1,7 @@
+ import assert from "node:assert/strict";
+ import test from "node:test";
+ 
++import { CheckoutService } from "../src/checkout.js";
+ import { Inventory } from "../src/inventory.js";
+ 
+ test("decrement returns and stores remaining inventory", () => {
+@@ -16,3 +17,13 @@ test("decrement rejects invalid quantities and insufficient stock", () => {
+   assert.throws(() => inventory.decrement("green", 0), /positive integer/);
+   assert.throws(() => inventory.decrement("green", 2), /insufficient inventory/);
+ });
++
++test("inventory remains unchanged when a checkout replay is handled", () => {
++  const inventory = new Inventory({ green: 3 });
++  const checkout = new CheckoutService(inventory);
++
++  checkout.submit({ sku: "green", quantity: 1, idempotencyKey: "replay-1" });
++  checkout.submit({ sku: "green", quantity: 1, idempotencyKey: "replay-1" });
++
++  assert.equal(inventory.available("green"), 2);
++});

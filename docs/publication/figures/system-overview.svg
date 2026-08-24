@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560"
+  viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">FirstGreen product path</title>
+  <desc id="desc">A repository and goal flow through parallelism extraction, an approved DAG, agent scheduling, and verified delivery. Evidence is a downstream consumer.</desc>
+  <rect width="960" height="560" fill="#ffffff"/>
+  <style>
+    text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #17202a; }
+    .title { font-size: 24px; font-weight: 600; }
+    .subtitle { font-size: 14px; fill: #52606d; }
+    .axis { font-size: 13px; fill: #52606d; }
+    .point-label { font-size: 12px; font-weight: 600; }
+    .annotation { font-size: 13px; fill: #34495e; }
+  </style>
+  <defs><marker id="flow-arrow" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#34495e"/></marker></defs>
+  <text x="64" y="40" class="title">FirstGreen treats a software goal as a parallel program</text>
+  <text x="64" y="66" class="subtitle">Extraction exposes safe work; scheduling converts it into shorter verified makespan</text>
+  <rect x="64" y="112" width="220" height="104" rx="10" fill="#e8f0fe" stroke="#aeb8c2" stroke-width="1.5"/>
+  <text x="174.0" y="155.7" text-anchor="middle" class="point-label">Repository + goal</text>
+  <text x="174.0" y="182.7" text-anchor="middle" class="axis">read-only bounded input</text>
+  <rect x="370" y="112" width="220" height="104" rx="10" fill="#e8f0fe" stroke="#aeb8c2" stroke-width="1.5"/>
+  <text x="480.0" y="155.7" text-anchor="middle" class="point-label">Parallelism extraction</text>
+  <text x="480.0" y="182.7" text-anchor="middle" class="axis">semantic units + path audit</text>
+  <rect x="676" y="112" width="220" height="104" rx="10" fill="#fff3e0" stroke="#aeb8c2" stroke-width="1.5"/>
+  <text x="786.0" y="155.7" text-anchor="middle" class="point-label">Approved DAG</text>
+  <text x="786.0" y="182.7" text-anchor="middle" class="axis">work · span · conflicts</text>
+  <rect x="370" y="280" width="220" height="90" rx="10" fill="#ede9fe" stroke="#aeb8c2" stroke-width="1.5"/>
+  <text x="480.0" y="317.8" text-anchor="middle" class="point-label">Agent scheduling</text>
+  <text x="480.0" y="341.2" text-anchor="middle" class="axis">critical path · slots · locks</text>
+  <rect x="676" y="280" width="220" height="90" rx="10" fill="#e7f6ed" stroke="#aeb8c2" stroke-width="1.5"/>
+  <text x="786.0" y="317.8" text-anchor="middle" class="point-label">Verified delivery</text>
+  <text x="786.0" y="341.2" text-anchor="middle" class="axis">winner + composed final gate</text>
+  <rect x="64" y="380" width="220" height="70" rx="10" fill="#f3f6f8" stroke="#aeb8c2" stroke-width="1.5"/>
+  <text x="174.0" y="409.4" text-anchor="middle" class="point-label">Evidence bundle</text>
+  <text x="174.0" y="427.6" text-anchor="middle" class="axis">raw rows · traces · report</text>
+  <line x1="284" y1="164" x2="356" y2="164" stroke="#34495e" stroke-width="2" marker-end="url(#flow-arrow)"/>
+  <line x1="590" y1="164" x2="662" y2="164" stroke="#34495e" stroke-width="2" marker-end="url(#flow-arrow)"/>
+  <line x1="590" y1="325" x2="662" y2="325" stroke="#34495e" stroke-width="2" marker-end="url(#flow-arrow)"/>
+  <polyline points="786,216 786,242 480,242 480,268" fill="none" stroke="#34495e" stroke-width="2" marker-end="url(#flow-arrow)"/>
+  <polyline points="786,370 786,415 296,415" fill="none" stroke="#34495e" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#flow-arrow)"/>
+  <text x="520" y="438" text-anchor="middle" class="annotation">benchmarking observes the product path</text>
+</svg>

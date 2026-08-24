@@ -1,0 +1,44 @@
+[
+  {
+    "attempt_id": "attempt_5a0bed1ab91e49f292e6b303315ebe51",
+    "event": "started",
+    "role": "primary",
+    "task": "health_commit",
+    "time": 0.4679999999998472
+  },
+  {
+    "attempt_id": "attempt_d107b48847eb45c3886aa58a993bd342",
+    "event": "started",
+    "role": "primary",
+    "task": "cli_version",
+    "time": 0.5150000000003274
+  },
+  {
+    "attempt_id": "attempt_5a0bed1ab91e49f292e6b303315ebe51",
+    "event": "completed",
+    "role": "primary",
+    "task": "health_commit",
+    "time": 0.9530000000004293
+  },
+  {
+    "attempt_id": "attempt_d107b48847eb45c3886aa58a993bd342",
+    "event": "completed",
+    "role": "primary",
+    "task": "cli_version",
+    "time": 1.0150000000003274
+  },
+  {
+    "attempt_id": "attempt_52187f748aeb460baa415d9a7da3513a",
+    "event": "started",
+    "role": "primary",
+    "task": "repository_verification",
+    "time": 2.4840000000003783
+  },
+  {
+    "attempt_id": "attempt_52187f748aeb460baa415d9a7da3513a",
+    "event": "completed",
+    "role": "primary",
+    "task": "repository_verification",
+    "time": 2.75
+  }
+]

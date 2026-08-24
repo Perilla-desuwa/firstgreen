@@ -1,0 +1,21 @@
+# Security review checklist
+
+- [x] Worker edits occur only in dedicated Git worktrees.
+- [x] Cleanup paths must be below a configured root and have marker plus Git registration.
+- [x] Winner worktrees are retained by default and refused by loser cleanup.
+- [x] `replay_safe` defaults false and is the first hedge gate.
+- [x] Editing uses `workspace-write`; bypass flags are never added by FirstGreen.
+- [x] Worker subprocesses use argv, not shell strings.
+- [x] Verifier shell strings require explicit `shell: true`.
+- [x] Prompt, reasoning, messages, command content, and credential-like fields are filtered.
+- [x] Output and verifier duration are bounded.
+- [x] Winner selection uses an immediate SQLite transaction and unique constraints.
+- [x] No merge, push, deploy, PR creation, or irreversible external action exists.
+- [x] Live authenticated tests require `FIRSTGREEN_RUN_LIVE_CODEX_TESTS=1`.
+- [ ] Container-grade isolation is not part of MVP; untrusted repositories remain dangerous.
+- [ ] Server-side cancellation cannot be guaranteed by a killed `codex exec` client.
+- [x] Repository scanner is read-only and planner input is a bounded compressed map.
+- [x] Planner calls, decomposition depth and task count have hard upper bounds.
+- [x] LLM proposals require deterministic compilation, validation and approval.
+- [x] User-denied paths block approval; dangerous risk tags block policy auto-approval.
+- [x] Planned write conflicts compile to scheduler-enforced capacity-one resources.

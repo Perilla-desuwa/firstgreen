@@ -1,0 +1,29 @@
+scenarios:
+  - id: fast_verified_hedge
+    hedge_after_seconds: 5
+    attempts:
+      - id: primary
+        start_at: 0
+        duration_seconds: 20
+        verification: pass
+      - id: hedge
+        start_at: hedge_threshold
+        duration_seconds: 2
+        verification: pass
+    expected_winner: hedge
+    expected_cancelled:
+      - primary
+
+  - id: fast_invalid_hedge
+    hedge_after_seconds: 5
+    attempts:
+      - id: primary
+        start_at: 0
+        duration_seconds: 10
+        verification: pass
+      - id: hedge
+        start_at: hedge_threshold
+        duration_seconds: 2
+        verification: fail
+    expected_winner: primary
+    expected_cancelled: []

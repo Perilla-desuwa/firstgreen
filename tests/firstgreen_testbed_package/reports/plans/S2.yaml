@@ -1,0 +1,121 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: '# Add CLI version and health commit metadata
+
+
+  Make two user-facing improvements:
+
+
+  1. Add a `--version` option to the TinyShop CLI that prints the package version
+  and exits successfully.
+
+  2. Add the current Git commit identifier to the health response. The value must
+  be deterministic in tests and may use an injected environment variable or helper.
+
+
+  Add focused tests for both behaviors.'
+issue_hash: bb2fda8ba86ac9dec486283c3398e60735641e711789f2bc7b51318ff8dc6f0b
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 2
+  decision: decompose
+  reason: CLI and health changes have disjoint writes and a final verification barrier.
+  relevant_paths:
+  - app/cli.py
+  - app/main.py
+  - tests/test_cli.py
+  - tests/test_health.py
+tasks:
+- id: cli_version
+  objective: Add the CLI version option.
+  produces:
+  - cli-version
+  requires: []
+  likely_paths:
+  - app/cli.py
+  - tests/test_cli.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: health_commit
+  objective: Add commit metadata to health.
+  produces:
+  - health-commit
+  requires: []
+  likely_paths:
+  - app/main.py
+  - tests/test_health.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: repository_verification
+  objective: Run final repository verification.
+  produces:
+  - verified-repository
+  requires:
+  - cli-version
+  - health-commit
+  likely_paths:
+  - tests/test_cli.py
+  - tests/test_health.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: true
+  dependencies:
+  - cli_version
+  - health_commit
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: low
+validation:
+  valid: true
+  errors: []
+  warnings: []
+  repairs: []
+approved: false
+user_edited: false
+cache_key: 050248f47323afad47d3e38ebfa07924a61347241dbf3dcc395d7f411cf7f212
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

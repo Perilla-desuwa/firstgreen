@@ -1,0 +1,56 @@
+version: 1
+project:
+  repo: .
+  base_ref: HEAD
+scheduler:
+  ready_queue_policy: stable
+  concurrency:
+    mode: static
+    min_root: 2
+    max_root: 2
+    initial_root: 2
+    total_agent_thread_budget: 2
+    verifier_slots: 1
+agent_defaults:
+  adapter: fake
+  timeout_seconds: 60
+  max_subagent_threads: 0
+  config:
+    fake_latency_seconds: 0.2
+verification_defaults:
+  delivery_commands:
+    - argv: [git, diff, --check]
+workspace: {}
+tasks:
+  - id: side-a
+    prompt: scripted independent side branch A
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: side-b
+    prompt: scripted independent side branch B
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: z-critical-1
+    prompt: scripted first stage of the critical chain
+    estimated_duration_seconds: 3
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: z-critical-2
+    prompt: scripted second stage of the critical chain
+    dependencies: [z-critical-1]
+    estimated_duration_seconds: 2
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: join
+    prompt: scripted integration join
+    dependencies: [side-a, side-b, z-critical-2]
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]

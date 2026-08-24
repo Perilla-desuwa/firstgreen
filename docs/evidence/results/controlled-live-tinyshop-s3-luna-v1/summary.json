@@ -1,0 +1,34 @@
+{
+  "schema": "firstgreen-case-study-summary-v1",
+  "experiment_id": "controlled-live-tinyshop-s3-luna-v1",
+  "status": "completed-with-negative-extraction-result",
+  "evaluated_commit": "967d239d4e532b08f9a72ff694bad2444b51e6c8",
+  "source_tree": "776283b66abaa167ef972e853681f0f29b18ee75",
+  "issue_sha256": "4B3611B8FF7BB30E39A05BCD0CAA4B538AE2F6B9F6F15FE49C5144EF60039DCC",
+  "model": "gpt-5.6-luna",
+  "reasoning": "low",
+  "observations": [
+    {
+      "id": "initial",
+      "planning_latency_seconds": 17.984,
+      "task_count": 2,
+      "ready_width": 1,
+      "execution_wall_seconds": 184.719,
+      "execution_verified": true,
+      "delivery_verified": true,
+      "golden_shape_passed": false,
+      "reported_tokens": 397345
+    },
+    {
+      "id": "retry1",
+      "planning_latency_seconds": 20.078,
+      "task_count": 2,
+      "ready_width": 1,
+      "execution_wall_seconds": 183.25,
+      "execution_verified": true,
+      "delivery_verified": true,
+      "golden_shape_passed": false,
+      "reported_tokens": 310236
+    }
+  ]
+}

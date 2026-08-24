@@ -1,0 +1,120 @@
+version: 1
+
+project:
+  repo: /absolute/path/to/your/repository
+  base_ref: main
+
+scheduler:
+  objective: p95_time_to_verified
+  concurrency:
+    mode: auto
+    min_root: 1
+    max_root: 6
+    initial_root: 2
+    total_agent_thread_budget: 12
+    verifier_slots: 2
+    control_window_seconds: 60
+    cooldown_seconds: 120
+  hedge:
+    enabled: true
+    quantile: 0.90
+    min_samples: 10
+    fallback_after_seconds: 900
+    max_replicas: 1
+    cancel_loser: true
+  budgets:
+    max_run_estimated_usd: 50.0
+    max_hedge_estimated_usd: 15.0
+
+agent_defaults:
+  adapter: codex_exec
+  sandbox: workspace-write
+  network_access: false
+  capture_sensitive_events: false
+  timeout_seconds: 3600
+  max_subagent_threads: 2
+  config: {}
+
+verification_defaults:
+  all_must_pass: true
+  command_timeout_seconds: 900
+  max_output_bytes: 2000000
+
+workspace:
+  root: .firstgreen/worktrees
+  keep_winner: true
+  keep_failed_seconds: 86400
+  keep_cancelled_seconds: 3600
+
+planning:
+  mode: auto
+  repository_scan:
+    language_profiles: [python, generic]
+    include_git_history: true
+    max_history_commits: 500
+    max_repo_map_tokens: 20000
+    max_files: 2000
+  decomposition:
+    max_depth: 1
+    max_tasks: 5
+    minimum_expected_task_seconds: 180
+    maximum_write_overlap: 0.35
+    allow_single_task_fallback: true
+  llm:
+    enabled: true
+    provider: codex
+    model: auto
+    maximum_calls_per_issue: 1
+    maximum_repair_calls: 0
+    cache: true
+  approval:
+    require_human: true
+    allow_low_risk_auto_approval: false
+  risk:
+    require_manual_approval:
+      - database-migration
+      - deployment
+      - security-policy
+      - external-side-effect
+
+tasks:
+  - id: issue-418
+    task_class: bugfix
+    priority: 100
+    prompt: >-
+      Fix the OAuth callback race condition. Preserve public APIs, add a regression
+      test, and do not modify files outside src/auth and tests/auth.
+    replay_safe: true
+    dependencies: []
+    resources:
+      - key: repo:auth
+        capacity: 1
+      - key: test:unit
+        capacity: 2
+    limits:
+      max_attempts: 2
+      max_estimated_usd: 5.0
+    verify:
+      commands:
+        - argv: ["pytest", "-q", "tests/auth"]
+        - argv: ["ruff", "check", "src/auth", "tests/auth"]
+      allowed_changed_paths:
+        - "src/auth/**"
+        - "tests/auth/**"
+
+  - id: update-auth-docs
+    task_class: docs
+    priority: 50
+    prompt: >-
+      Update the authentication troubleshooting documentation to reflect the fix
+      in issue-418. Do not alter application code.
+    replay_safe: true
+    dependencies: [issue-418]
+    resources:
+      - key: repo:docs
+        capacity: 1
+    verify:
+      commands:
+        - argv: ["python", "scripts/check_docs.py"]
+      allowed_changed_paths:
+        - "docs/**"

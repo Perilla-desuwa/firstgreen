@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560"
+  viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Representative four-slot Ramsey branch/join trace</title>
+  <desc id="desc">Four shard attempts overlap from run start. A certificate task begins only after all shards verify, followed by final delivery verification.</desc>
+  <rect width="960" height="560" fill="#ffffff"/>
+  <style>
+    text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #17202a; }
+    .title { font-size: 24px; font-weight: 600; }
+    .subtitle { font-size: 14px; fill: #52606d; }
+    .axis { font-size: 13px; fill: #52606d; }
+    .point-label { font-size: 12px; font-weight: 600; }
+    .annotation { font-size: 13px; fill: #34495e; }
+  </style>
+  <defs><marker id="ramsey-arrow" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#34495e"/></marker></defs>
+  <text x="64" y="38" class="title">Four-slot Ramsey trace: width ends at the join</text>
+  <text x="64" y="62" class="subtitle">All four roots start together; the certificate waits for the slowest verified shard</text>
+  <line x1="220.0" y1="92" x2="220.0" y2="482" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="220.0" y="86" text-anchor="middle" class="axis">0</text>
+  <line x1="393.0" y1="92" x2="393.0" y2="482" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="393.0" y="86" text-anchor="middle" class="axis">35</text>
+  <line x1="566.0" y1="92" x2="566.0" y2="482" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="566.0" y="86" text-anchor="middle" class="axis">70</text>
+  <line x1="738.9" y1="92" x2="738.9" y2="482" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="738.9" y="86" text-anchor="middle" class="axis">105</text>
+  <line x1="910.0" y1="92" x2="910.0" y2="482" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="910.0" y="86" text-anchor="end" class="axis">140 s</text>
+  <text x="200" y="140.0" text-anchor="end" class="axis">Shard 0</text>
+  <line x1="220.0" y1="135.0" x2="910.0" y2="135.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="200" y="195.0" text-anchor="end" class="axis">Shard 1</text>
+  <line x1="220.0" y1="190.0" x2="910.0" y2="190.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="200" y="250.0" text-anchor="end" class="axis">Shard 2</text>
+  <line x1="220.0" y1="245.0" x2="910.0" y2="245.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="200" y="305.0" text-anchor="end" class="axis">Shard 3</text>
+  <line x1="220.0" y1="300.0" x2="910.0" y2="300.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="200" y="390.0" text-anchor="end" class="axis">Certificate join</text>
+  <line x1="220.0" y1="385.0" x2="910.0" y2="385.0" stroke="#d9e0e6" stroke-width="1"/>
+  <text x="200" y="460.0" text-anchor="end" class="axis">Delivery</text>
+  <line x1="220.0" y1="455.0" x2="910.0" y2="455.0" stroke="#d9e0e6" stroke-width="1"/>
+  <rect x="222.5" y="117.0" width="286.2" height="36" rx="5" fill="#2563eb"/>
+  <text x="365.6" y="140.0" text-anchor="middle" style="font-size:12px;fill:#ffffff;font-weight:600">Shard 0 · 57.9s</text>
+  <rect x="222.6" y="172.0" width="308.2" height="36" rx="5" fill="#3b82f6"/>
+  <text x="376.7" y="195.0" text-anchor="middle" style="font-size:12px;fill:#ffffff;font-weight:600">Shard 1 · 62.4s</text>
+  <rect x="222.9" y="282.0" width="307.4" height="36" rx="5" fill="#7c3aed"/>
+  <text x="376.5" y="305.0" text-anchor="middle" style="font-size:12px;fill:#ffffff;font-weight:600">Shard 3 · 62.2s</text>
+  <rect x="222.9" y="227.0" width="344.8" height="36" rx="5" fill="#60a5fa"/>
+  <text x="395.3" y="250.0" text-anchor="middle" style="font-size:12px;fill:#ffffff;font-weight:600">Shard 2 · 69.8s</text>
+  <rect x="570.3" y="367.0" width="331.3" height="36" rx="5" fill="#d97706"/>
+  <text x="736.0" y="390.0" text-anchor="middle" style="font-size:12px;fill:#ffffff;font-weight:600">Certificate join · 67.0s</text>
+  <rect x="901.7" y="437.0" width="8.3" height="36" rx="5" fill="#16794b"/>
+  <text x="895.7" y="460.0" text-anchor="end" class="point-label">verify</text>
+  <line x1="570.3" y1="322" x2="570.3" y2="355" stroke="#34495e" stroke-width="2" marker-end="url(#ramsey-arrow)"/>
+  <text x="578.3" y="342" class="annotation">slowest shard verified → join released</text>
+</svg>

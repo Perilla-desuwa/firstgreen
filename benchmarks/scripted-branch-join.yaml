@@ -1,0 +1,55 @@
+version: 1
+project:
+  repo: .
+  base_ref: HEAD
+scheduler:
+  ready_queue_policy: critical_path
+  concurrency:
+    mode: static
+    min_root: 1
+    max_root: 1
+    initial_root: 1
+    total_agent_thread_budget: 1
+    verifier_slots: 1
+agent_defaults:
+  adapter: fake
+  timeout_seconds: 60
+  max_subagent_threads: 0
+  config:
+    fake_latency_seconds: 0.15
+verification_defaults:
+  delivery_commands:
+    - argv: [git, diff, --check]
+workspace: {}
+tasks:
+  - id: branch-a
+    prompt: scripted branch A
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: branch-b
+    prompt: scripted branch B
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: branch-c
+    prompt: scripted branch C
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: branch-d
+    prompt: scripted branch D
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]
+  - id: join
+    prompt: scripted join
+    dependencies: [branch-a, branch-b, branch-c, branch-d]
+    estimated_duration_seconds: 1
+    verify:
+      commands:
+        - argv: [git, diff, --check]

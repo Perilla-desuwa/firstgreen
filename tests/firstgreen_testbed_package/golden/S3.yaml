@@ -1,0 +1,20 @@
+scenario: S3
+decision: decompose
+recommended_parallelism:
+  min: 2
+  max: 3
+task_count:
+  min: 3
+  max: 5
+risk_level: medium
+required_artifacts:
+  - reset-token-schema
+  - password-reset-service
+  - password-reset-email
+required_relationships:
+  - [reset-token-schema, password-reset-service]
+  - [password-reset-service, reset-integration]
+  - [password-reset-email, reset-integration]
+requires_parallel_branch: true
+requires_join: true
+execution_allowed: true

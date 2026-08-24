@@ -1,0 +1,205 @@
+{
+  "traceEvents": [
+    {
+      "name": "ramsey-shard-0 [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 509340.0,
+      "dur": 57905595.0,
+      "args": {
+        "task_key": "ramsey-shard-0",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "ramsey-shard-1 [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 528267.0,
+      "dur": 62354194.0,
+      "args": {
+        "task_key": "ramsey-shard-1",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "ramsey-shard-3 [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 578171.0,
+      "dur": 62188640.0,
+      "args": {
+        "task_key": "ramsey-shard-3",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "ramsey-shard-2 [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 587485.0,
+      "dur": 69770734.0,
+      "args": {
+        "task_key": "ramsey-shard-2",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "ramsey-shard-0",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 58182111.0,
+      "dur": 127159.0,
+      "args": {
+        "task_key": "ramsey-shard-0"
+      }
+    },
+    {
+      "name": "ramsey-shard-0",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 58309270.0,
+      "dur": 50264.0,
+      "args": {
+        "task_key": "ramsey-shard-0"
+      }
+    },
+    {
+      "name": "ramsey-shard-3",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 62551537.0,
+      "dur": 120063.0,
+      "args": {
+        "task_key": "ramsey-shard-3"
+      }
+    },
+    {
+      "name": "ramsey-shard-3",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 62671600.0,
+      "dur": 42531.0,
+      "args": {
+        "task_key": "ramsey-shard-3"
+      }
+    },
+    {
+      "name": "ramsey-shard-1",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 62675353.0,
+      "dur": 105888.0,
+      "args": {
+        "task_key": "ramsey-shard-1"
+      }
+    },
+    {
+      "name": "ramsey-shard-1",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 62781241.0,
+      "dur": 43673.0,
+      "args": {
+        "task_key": "ramsey-shard-1"
+      }
+    },
+    {
+      "name": "ramsey-shard-2",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 70155040.0,
+      "dur": 101755.0,
+      "args": {
+        "task_key": "ramsey-shard-2"
+      }
+    },
+    {
+      "name": "ramsey-shard-2",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 70256795.0,
+      "dur": 43467.0,
+      "args": {
+        "task_key": "ramsey-shard-2"
+      }
+    },
+    {
+      "name": "ramsey-certificate [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 70881798.0,
+      "dur": 67029630.99999999,
+      "args": {
+        "task_key": "ramsey-certificate",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "ramsey-certificate",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 136952455.0,
+      "dur": 888175.0,
+      "args": {
+        "task_key": "ramsey-certificate"
+      }
+    },
+    {
+      "name": "final delivery",
+      "cat": "integration",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "integration",
+      "ts": 137925517.0,
+      "dur": 1677269.0,
+      "args": {}
+    }
+  ],
+  "displayTimeUnit": "ms",
+  "metadata": {
+    "run_id": "run_1344bd6931f14dc793c8b59fa12953af",
+    "makespan_seconds": 139.611796,
+    "agent_seconds": 319.248794,
+    "verifier_seconds": 1.522975,
+    "verifier_queue_wait_seconds": 0.0,
+    "average_active_agents": 2.2866892565439096,
+    "root_slot_utilization": 0.5716723141359774,
+    "idle_root_slot_seconds": 239.19839000000002,
+    "idle_reason_observations": {
+      "dependency_limited": 3,
+      "parallelism_exhausted": 0,
+      "resource_locked": 0,
+      "verifier_limited": 0
+    },
+    "attempt_count": 5
+  }
+}

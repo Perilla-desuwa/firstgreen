@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560"
+  viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Stable versus critical-path ready-queue scheduling</title>
+  <desc id="desc">Representative median traces show stable ordering consuming the first two slots with side branches, while critical-path ordering starts the dependent long chain.</desc>
+  <rect width="960" height="560" fill="#ffffff"/>
+  <style>
+    text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #17202a; }
+    .title { font-size: 24px; font-weight: 600; }
+    .subtitle { font-size: 14px; fill: #52606d; }
+    .axis { font-size: 13px; fill: #52606d; }
+    .point-label { font-size: 12px; font-weight: 600; }
+    .annotation { font-size: 13px; fill: #34495e; }
+  </style>
+  <text x="64" y="38" class="title">Critical-path ranking advances the long chain</text>
+  <text x="64" y="62" class="subtitle">Three runs per policy · median wall 8.984s → 7.766s (13.56% lower)</text>
+  <line x1="210.0" y1="102" x2="210.0" y2="472" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="210.0" y="96" text-anchor="middle" class="axis">0</text>
+  <line x1="367.2" y1="102" x2="367.2" y2="472" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="367.2" y="96" text-anchor="middle" class="axis">2</text>
+  <line x1="524.4" y1="102" x2="524.4" y2="472" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="524.4" y="96" text-anchor="middle" class="axis">4</text>
+  <line x1="681.6" y1="102" x2="681.6" y2="472" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="681.6" y="96" text-anchor="middle" class="axis">6</text>
+  <line x1="838.8" y1="102" x2="838.8" y2="472" stroke="#e3e8ed" stroke-width="1"/>
+  <text x="838.8" y="96" text-anchor="middle" class="axis">8</text>
+  <text x="910" y="96" text-anchor="end" class="axis">seconds</text>
+  <text x="190" y="124.0" text-anchor="end" class="point-label">Stable</text>
+  <line x1="210.0" y1="150.0" x2="910.0" y2="150.0" stroke="#d9e0e6" stroke-width="1"/>
+  <line x1="210.0" y1="195.0" x2="910.0" y2="195.0" stroke="#d9e0e6" stroke-width="1"/>
+  <line x1="210.0" y1="240.0" x2="910.0" y2="240.0" stroke="#d9e0e6" stroke-width="1"/>
+  <rect x="249.7" y="134.0" width="103.0" height="32" rx="5" fill="#2563eb"/>
+  <text x="301.2" y="154.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">side A</text>
+  <rect x="253.2" y="179.0" width="179.6" height="32" rx="5" fill="#7c3aed"/>
+  <text x="343.0" y="199.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">side B</text>
+  <rect x="393.4" y="134.0" width="113.3" height="32" rx="5" fill="#b42318"/>
+  <text x="450.1" y="154.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">critical 1</text>
+  <rect x="546.1" y="134.0" width="107.7" height="32" rx="5" fill="#d97706"/>
+  <text x="600.0" y="154.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">critical 2</text>
+  <rect x="710.3" y="134.0" width="88.9" height="32" rx="5" fill="#16794b"/>
+  <text x="754.8" y="154.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">join</text>
+  <rect x="800.4" y="224.0" width="108.5" height="32" rx="5" fill="#34495e"/>
+  <text x="854.6" y="244.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">delivery</text>
+  <line x1="64" y1="286" x2="920" y2="286" stroke="#aeb8c2" stroke-width="1"/>
+  <text x="190" y="324.0" text-anchor="end" class="point-label">Critical path</text>
+  <line x1="210.0" y1="350.0" x2="910.0" y2="350.0" stroke="#d9e0e6" stroke-width="1"/>
+  <line x1="210.0" y1="395.0" x2="910.0" y2="395.0" stroke="#d9e0e6" stroke-width="1"/>
+  <line x1="210.0" y1="440.0" x2="910.0" y2="440.0" stroke="#d9e0e6" stroke-width="1"/>
+  <rect x="252.0" y="334.0" width="90.2" height="32" rx="5" fill="#b42318"/>
+  <text x="297.1" y="354.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">critical 1</text>
+  <rect x="254.7" y="379.0" width="159.7" height="32" rx="5" fill="#2563eb"/>
+  <text x="334.5" y="399.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">side A</text>
+  <rect x="380.2" y="334.0" width="113.4" height="32" rx="5" fill="#d97706"/>
+  <text x="436.9" y="354.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">critical 2</text>
+  <rect x="449.3" y="379.0" width="117.1" height="32" rx="5" fill="#7c3aed"/>
+  <text x="507.8" y="399.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">side B</text>
+  <rect x="622.2" y="334.0" width="84.1" height="32" rx="5" fill="#16794b"/>
+  <text x="664.3" y="354.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">join</text>
+  <rect x="707.3" y="424.0" width="105.5" height="32" rx="5" fill="#34495e"/>
+  <text x="760.0" y="444.0" text-anchor="middle" style="font-size:11px;fill:#ffffff;font-weight:600">delivery</text>
+</svg>

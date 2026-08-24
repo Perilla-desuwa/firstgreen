@@ -1,0 +1,157 @@
+{
+  "traceEvents": [
+    {
+      "name": "z-critical-1 [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 534498.0,
+      "dur": 1147326.0,
+      "args": {
+        "task_key": "z-critical-1",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "side-a [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 568924.0,
+      "dur": 2031422.0,
+      "args": {
+        "task_key": "side-a",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "z-critical-1",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 1519405.0,
+      "dur": 70497.0,
+      "args": {
+        "task_key": "z-critical-1"
+      }
+    },
+    {
+      "name": "z-critical-2 [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 2165127.0,
+      "dur": 1443160.0,
+      "args": {
+        "task_key": "z-critical-2",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "side-a",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 2408942.0,
+      "dur": 92733.0,
+      "args": {
+        "task_key": "side-a"
+      }
+    },
+    {
+      "name": "side-b [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 3044850.0,
+      "dur": 1489408.0,
+      "args": {
+        "task_key": "side-b",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "z-critical-2",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 3394486.0,
+      "dur": 98129.0,
+      "args": {
+        "task_key": "z-critical-2"
+      }
+    },
+    {
+      "name": "side-b",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 4350942.0,
+      "dur": 92678.0,
+      "args": {
+        "task_key": "side-b"
+      }
+    },
+    {
+      "name": "join [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 5245035.0,
+      "dur": 1070524.0,
+      "args": {
+        "task_key": "join",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "join",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 6133116.0,
+      "dur": 86063.0,
+      "args": {
+        "task_key": "join"
+      }
+    },
+    {
+      "name": "final delivery",
+      "cat": "integration",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "integration",
+      "ts": 6327343.0,
+      "dur": 1342133.0,
+      "args": {}
+    }
+  ],
+  "displayTimeUnit": "ms",
+  "metadata": {
+    "run_id": "run_f5a8632ef0df429c970da53544ea77e8",
+    "makespan_seconds": 7.682082,
+    "agent_seconds": 7.18184,
+    "verifier_seconds": 0.4401,
+    "verifier_queue_wait_seconds": 1.437999999994645,
+    "average_active_agents": 0.9348819760059838,
+    "root_slot_utilization": 0.4674409880029919,
+    "idle_root_slot_seconds": 8.182324000000001,
+    "idle_reason_observations": {
+      "dependency_limited": 1,
+      "parallelism_exhausted": 0,
+      "resource_locked": 0,
+      "verifier_limited": 3
+    },
+    "attempt_count": 5
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "decision": "decompose",
+  "recommended_parallelism": 2,
+  "tasks": [
+    {
+      "id": "think-about-problem",
+      "objective": "Think about the problem and coordinate the other agents.",
+      "produces": [],
+      "requires": [],
+      "likely_paths": [],
+      "verification_hints": [],
+      "risk_tags": []
+    },
+    {
+      "id": "discuss-solution",
+      "objective": "Discuss possible solutions.",
+      "produces": [],
+      "requires": [],
+      "likely_paths": [],
+      "verification_hints": [],
+      "risk_tags": []
+    }
+  ]
+}

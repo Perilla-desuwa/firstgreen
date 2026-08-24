@@ -1,0 +1,58 @@
+[
+  {
+    "attempt_id": "attempt_a805b093d27e4a97bcbcca8ee45a2c72",
+    "case": "fast_verified_hedge",
+    "event": "started",
+    "role": "primary",
+    "task": "hedged-result",
+    "time": 0.375
+  },
+  {
+    "attempt_id": "attempt_a834aceea3d84d1db8629141122d5de3",
+    "case": "fast_verified_hedge",
+    "event": "started",
+    "role": "hedge",
+    "task": "hedged-result",
+    "time": 0.7030000000004293
+  },
+  {
+    "attempt_id": "attempt_a834aceea3d84d1db8629141122d5de3",
+    "case": "fast_verified_hedge",
+    "event": "completed",
+    "role": "hedge",
+    "task": "hedged-result",
+    "time": 0.7340000000003783
+  },
+  {
+    "attempt_id": "attempt_5b9fecd0950542bd91056344e3368ad7",
+    "case": "fast_invalid_hedge",
+    "event": "started",
+    "role": "primary",
+    "task": "hedged-result",
+    "time": 0.4220000000004802
+  },
+  {
+    "attempt_id": "attempt_88610251ea304f3ea31a335ce55d7c70",
+    "case": "fast_invalid_hedge",
+    "event": "started",
+    "role": "hedge",
+    "task": "hedged-result",
+    "time": 0.8119999999998981
+  },
+  {
+    "attempt_id": "attempt_88610251ea304f3ea31a335ce55d7c70",
+    "case": "fast_invalid_hedge",
+    "event": "completed",
+    "role": "hedge",
+    "task": "hedged-result",
+    "time": 0.8280000000004293
+  },
+  {
+    "attempt_id": "attempt_5b9fecd0950542bd91056344e3368ad7",
+    "case": "fast_invalid_hedge",
+    "event": "completed",
+    "role": "primary",
+    "task": "hedged-result",
+    "time": 1.9369999999998981
+  }
+]

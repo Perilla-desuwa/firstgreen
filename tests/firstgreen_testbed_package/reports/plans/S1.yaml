@@ -1,0 +1,60 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: '# Fix invalid order page size
+
+
+  Fix order pagination so that `page_size=0` no longer causes a division-by-zero or
+  equivalent internal error. Any `page_size` smaller than 1 must produce a clear parameter
+  validation error. Add focused regression tests for zero and negative page sizes
+  while preserving normal pagination behavior.'
+issue_hash: 50d1c3bb9ad949f40dfec53713edef2c616fc74e659d33aedc8beb652795927c
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 1
+  decision: single_task
+  reason: The implementation and regression tests are tightly coupled.
+  relevant_paths:
+  - app/orders/service.py
+  - tests/test_orders.py
+tasks:
+- id: pagination_fix
+  objective: Validate page size and add regression tests.
+  produces:
+  - pagination-fix
+  requires: []
+  likely_paths:
+  - app/orders/service.py
+  - tests/test_orders.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: low
+validation:
+  valid: true
+  errors: []
+  warnings: []
+  repairs: []
+approved: false
+user_edited: false
+cache_key: 87004ad2231697a418d4ca6c66f41b94869fb7c1d393c2cb6322e65b5f3f05f9
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

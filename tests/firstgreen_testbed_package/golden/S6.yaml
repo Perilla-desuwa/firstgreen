@@ -1,0 +1,10 @@
+scenario: S6
+decision: decompose
+risk_level: high
+required_risk_tags:
+  - database-migration
+  - destructive-schema-change
+requires_human_approval: true
+auto_approval: false
+execution_allowed: false
+expected_state: awaiting_plan_approval

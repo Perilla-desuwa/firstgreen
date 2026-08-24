@@ -1,0 +1,16 @@
+[
+  {
+    "attempt_id": "attempt_15638d4057914b869075c0e9565c5f31",
+    "event": "started",
+    "role": "primary",
+    "task": "pagination_fix",
+    "time": 0.35900000000037835
+  },
+  {
+    "attempt_id": "attempt_15638d4057914b869075c0e9565c5f31",
+    "event": "completed",
+    "role": "primary",
+    "task": "pagination_fix",
+    "time": 0.625
+  }
+]

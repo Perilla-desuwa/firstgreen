@@ -1,0 +1,15 @@
+scenario: S5
+decision: decompose
+recommended_parallelism:
+  min: 2
+  max: 2
+task_count:
+  min: 3
+  max: 5
+required_artifacts:
+  - cancelled-order-state
+  - order-cancellation-service
+  - cancellation-email
+requires_parallel_branch: true
+requires_join: true
+execution_allowed: true

@@ -1,0 +1,5 @@
+.runtime/
+reports/workspaces/
+tinyshop/.pytest_cache/
+tinyshop/.ruff_cache/
+tinyshop/**/__pycache__/

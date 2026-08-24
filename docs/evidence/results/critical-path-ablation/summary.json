@@ -1,0 +1,36 @@
+{
+  "schema": "firstgreen-ready-queue-ablation-v1",
+  "status": "completed",
+  "evaluated_commit": "3c0a87122dc847e19d601b380d1ebea1d2a189cd",
+  "root_slots": 2,
+  "verifier_slots": 1,
+  "repetitions_per_policy": 3,
+  "task_count": 5,
+  "failed_cells": 0,
+  "stable": {
+    "manifest_sha256": "D813BB22E1AD5EA2A61AFCFE5733A78A9FF0CCEBC9BD0ABC3DBC5F74A237AA1A",
+    "wall_seconds": [9.735, 8.984, 7.453],
+    "median_wall_seconds": 8.984,
+    "median_makespan_seconds": 8.906359,
+    "median_root_slot_utilization": 0.42317006309761374,
+    "selection_orders": [
+      ["side-a", "side-b", "z-critical-1", "z-critical-2", "join"],
+      ["side-a", "side-b", "z-critical-1", "z-critical-2", "join"],
+      ["side-a", "side-b", "z-critical-1", "z-critical-2", "join"]
+    ]
+  },
+  "critical_path": {
+    "manifest_sha256": "A5C79FAD0EDF6A62644299A453C1D18A3CA96109F9763B37AED5FCC4BAB07157",
+    "wall_seconds": [7.766, 6.14, 8.344],
+    "median_wall_seconds": 7.766,
+    "median_makespan_seconds": 7.682082,
+    "median_root_slot_utilization": 0.4584034047659114,
+    "selection_orders": [
+      ["z-critical-1", "side-a", "z-critical-2", "side-b", "join"],
+      ["z-critical-1", "side-a", "z-critical-2", "side-b", "join"],
+      ["z-critical-1", "side-a", "side-b", "z-critical-2", "join"]
+    ]
+  },
+  "median_wall_reduction_percent": 13.5574,
+  "interpretation": "Critical-path ranking selected the long chain at the first admission in all three runs and advanced its second stage before the remaining side branch in two runs. The stable policy selected both side branches first in all three runs."
+}

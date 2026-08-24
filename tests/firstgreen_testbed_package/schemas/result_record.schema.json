@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["scenario", "planning", "golden_check"],
+  "properties": {
+    "scenario": {"type": "string"},
+    "planning": {
+      "type": "object",
+      "required": ["decision", "validation_passed"],
+      "properties": {
+        "decision": {"type": "string"},
+        "candidate_task_count": {"type": "integer", "minimum": 0},
+        "approved_task_count": {"type": "integer", "minimum": 0},
+        "recommended_parallelism": {"type": "integer", "minimum": 1},
+        "validation_passed": {"type": "boolean"},
+        "human_approval_required": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "execution": {
+      "type": ["object", "null"],
+      "additionalProperties": true
+    },
+    "golden_check": {
+      "type": "object",
+      "required": ["passed", "violations"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "violations": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

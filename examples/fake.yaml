@@ -1,0 +1,40 @@
+version: 1
+project:
+  repo: .
+  base_ref: main
+scheduler:
+  concurrency:
+    mode: static
+    min_root: 1
+    max_root: 2
+    initial_root: 2
+    total_agent_thread_budget: 2
+    verifier_slots: 2
+  hedge:
+    enabled: true
+    fallback_after_seconds: 1
+  budgets: {}
+agent_defaults:
+  adapter: fake
+  sandbox: workspace-write
+  network_access: false
+  capture_sensitive_events: false
+  timeout_seconds: 60
+  max_subagent_threads: 1
+  config: {}
+verification_defaults:
+  all_must_pass: true
+  command_timeout_seconds: 30
+  max_output_bytes: 10000
+workspace: {}
+tasks:
+  - id: fake-smoke
+    task_class: smoke
+    prompt: Cost-free deterministic fake worker task.
+    replay_safe: true
+    dependencies: []
+    verify:
+      commands:
+        - argv: ["python", "-c", "print('verified')"]
+      allowed_changed_paths: []
+

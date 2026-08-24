@@ -1,0 +1,89 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: '# Add authentication audit logging
+
+
+  Emit audit records after successful login and after successful password reset. Each
+  record must contain the user ID, event type, and timestamp. Add focused tests for
+  both flows.'
+issue_hash: 99087894b1058cd826ce56fc676f78d6d39b373ae4614e02621be02b167af18e
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 1
+  decision: decompose
+  reason: Semantic units share an exclusive app/auth write resource.
+  relevant_paths:
+  - app/auth/routes.py
+  - tests/test_auth.py
+tasks:
+- id: login_audit
+  objective: Audit successful login.
+  produces:
+  - login-audit
+  requires: []
+  likely_paths:
+  - app/auth/routes.py
+  - tests/test_auth.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources:
+  - write:app/auth/routes.py
+- id: reset_audit
+  objective: Audit successful password reset.
+  produces:
+  - reset-audit
+  requires: []
+  likely_paths:
+  - app/auth/routes.py
+  - tests/test_auth.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources:
+  - write:app/auth/routes.py
+conflicts:
+- task_a: login_audit
+  task_b: reset_audit
+  constraint: exclusive_write
+  resource: app/auth/routes.py
+external_artifacts: []
+risk_level: low
+validation:
+  valid: true
+  errors: []
+  warnings: []
+  repairs: []
+approved: false
+user_edited: false
+cache_key: c16511daba09b3d49bbe5821b2102c3f41e386948546b6e1bdf99ac7a8e37e28
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

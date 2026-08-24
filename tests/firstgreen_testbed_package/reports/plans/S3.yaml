@@ -1,0 +1,148 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: '# Add password reset
+
+
+  Add a password-reset workflow.
+
+
+  A user can request a reset token. The token expires after one hour. The system sends
+  a fake email containing the token. A confirmation operation validates the token
+  and updates the user''s password, or a deterministic password representation used
+  by the fixture. Invalid and expired tokens must be rejected. Add focused unit and
+  integration tests.'
+issue_hash: c12da4123cfc6aeeac43c73c02e6bee41936b14c473ae62bf6326fb88b4c8f2e
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 2
+  decision: decompose
+  reason: Model/service and email form parallel branches before integration.
+  relevant_paths:
+  - app/auth/routes.py
+  - app/auth/service.py
+  - app/mailer.py
+  - app/models.py
+  - tests/test_password_reset.py
+tasks:
+- id: reset_token_model
+  objective: Add reset token model.
+  produces:
+  - reset-token-schema
+  requires: []
+  likely_paths:
+  - app/models.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags:
+  - authentication-change
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: reset_service
+  objective: Implement password reset service.
+  produces:
+  - password-reset-service
+  requires:
+  - reset-token-schema
+  likely_paths:
+  - app/auth/service.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags:
+  - authentication-change
+  uncertainty: null
+  read_only: false
+  dependencies:
+  - reset_token_model
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: reset_email
+  objective: Add reset email content.
+  produces:
+  - password-reset-email
+  requires: []
+  likely_paths:
+  - app/mailer.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags:
+  - authentication-change
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: reset_integration
+  objective: Integrate reset routes and tests.
+  produces:
+  - reset-integration
+  requires:
+  - password-reset-service
+  - password-reset-email
+  likely_paths:
+  - app/auth/routes.py
+  - tests/test_password_reset.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags:
+  - authentication-change
+  uncertainty: null
+  read_only: false
+  dependencies:
+  - reset_email
+  - reset_service
+  - reset_token_model
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: medium
+validation:
+  valid: true
+  errors: []
+  warnings:
+  - task reset_integration predicts unknown path tests/test_password_reset.py
+  repairs: []
+approved: false
+user_edited: false
+cache_key: cdf23e4359230842a5c8cb9c73b90dec02d5f215b0edb01bdc975e711901ea33
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

@@ -1,0 +1,92 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: '# Remove legacy token field
+
+
+  Remove the deprecated `legacy_token` field from persisted user data and clean up
+  all application references. Include the required schema migration and verification
+  steps. Do not lose existing user records.'
+issue_hash: e846754fc3e42f50dd2723ef4a164d22f25195598c5e40b4d155ef642a7499a0
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 1
+  decision: decompose
+  reason: Destructive schema work is bounded but always requires human approval.
+  relevant_paths:
+  - app/auth/service.py
+  - app/models.py
+  - migrations/001_remove_legacy_token.py
+  - tests/test_models.py
+tasks:
+- id: legacy_schema_migration
+  objective: Remove the persisted legacy token with a reversible migration.
+  produces:
+  - user-schema-v2
+  requires: []
+  likely_paths:
+  - app/models.py
+  - migrations/001_remove_legacy_token.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags:
+  - database-migration
+  - destructive-schema-change
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: legacy_reference_cleanup
+  objective: Remove application references and verify existing users.
+  produces:
+  - legacy-token-removed
+  requires:
+  - user-schema-v2
+  likely_paths:
+  - app/auth/service.py
+  - tests/test_models.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags:
+  - database-migration
+  - destructive-schema-change
+  uncertainty: null
+  read_only: false
+  dependencies:
+  - legacy_schema_migration
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: high
+validation:
+  valid: true
+  errors: []
+  warnings:
+  - task legacy_schema_migration predicts unknown path migrations/001_remove_legacy_token.py
+  repairs: []
+approved: false
+user_edited: false
+cache_key: d92a23fd68bd65b7b145664f4724ed12752f74aa6ed4bc1a9c3e76bb2bf9e0fc
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

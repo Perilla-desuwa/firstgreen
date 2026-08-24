@@ -1,0 +1,54 @@
+{
+  "schema": "firstgreen-case-study-summary-v1",
+  "experiment_id": "controlled-live-js-checkout-v1",
+  "status": "completed",
+  "run_id": "run_716ae456f4be41a3b743ee3530fee784",
+  "evaluated_commit": "834de42968614eca7f37a92ddf8c1399081fb6e3",
+  "source_base_sha": "59184e7b6ea77e6d6445b8544ef82edbe15e6996",
+  "issue_sha256": "A4D8293373084A61DAE5234A0A210E8CCE774B2FB93778334C91CE9BCD95F64B",
+  "candidate_plan_sha256": "E2B7BA77AC0D8D3CC8B9CD36A1C5AE9EEA186C972634BCA08B82D7E6B4C61A89",
+  "frozen_manifest_sha256": "D6213E5DB3B697B5D866DFCC65886A2A944AF7B6CB062A068A41B0C9D32DE9F3",
+  "runtime_manifest_sha256": "557B0E9BB0B2BBC5008F0AC649768A4A8E7A7FCECF4630C58F828D506F1D0AFD",
+  "planner": {
+    "model": "gpt-5.6-luna",
+    "reasoning": "medium",
+    "version": "codex-planner-v6",
+    "latency_seconds": 21.911461,
+    "task_count": 3,
+    "ready_width": 2,
+    "estimated_work_seconds": 684.0,
+    "estimated_span_seconds": 486.0,
+    "exposed_parallelism": 1.407
+  },
+  "execution": {
+    "worker_model": "gpt-5.6-luna",
+    "worker_reasoning": "low",
+    "root_slots": 2,
+    "maximum_observed_parallelism": 2,
+    "makespan_seconds": 289.085117,
+    "agent_seconds": 342.029346,
+    "root_slot_utilization": 0.5915720420847538,
+    "attempt_count": 5,
+    "primary_attempts_rejected": 2,
+    "repair_attempts": 2,
+    "verified_tasks": 3,
+    "failed_tasks": 0,
+    "hedges": 0
+  },
+  "delivery": {
+    "verified": true,
+    "test_count": 9,
+    "changed_paths": [
+      "README.md",
+      "src/checkout.js",
+      "test/checkout.test.js",
+      "test/inventory.test.js"
+    ],
+    "diff_sha256": "37FA072426C930E6A0A4135354C3A76EF8A5E265690814B5F1AFFCFC84EB6935"
+  },
+  "usage": {
+    "attempts_reported": 5,
+    "total_tokens": 597251,
+    "billable_cost_usd": null
+  }
+}

@@ -1,0 +1,307 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[margin=0.72in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+\setlength{\columnsep}{0.24in}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+
+\input{results.tex}
+
+\newcommand{\fgfigure}[3]{%
+  \IfFileExists{#1.pdf}{%
+    \begin{figure}[t]\centering\includegraphics[width=\linewidth]{#1.pdf}\caption{#2}\label{#3}\end{figure}}{%
+    \IfFileExists{#1.png}{%
+      \begin{figure}[t]\centering\includegraphics[width=\linewidth]{#1.png}\caption{#2}\label{#3}\end{figure}}{%
+      \begin{center}\fbox{\parbox[c][1.0in][c]{0.90\linewidth}{\centering Figure pending\\\texttt{#1}}}\\[-1pt]
+      {\footnotesize #2}\end{center}}}}
+
+\newcommand{\fgwidefigure}[3]{%
+  \begin{figure*}[t]
+    \centering
+    \IfFileExists{#1.pdf}{\includegraphics[width=0.88\textwidth]{#1.pdf}}{%
+      \IfFileExists{#1.png}{\includegraphics[width=0.88\textwidth]{#1.png}}{%
+        \fbox{\parbox[c][1.5in][c]{0.84\textwidth}{\centering Figure pending\\\texttt{#1}}}}}
+    \caption{#2}
+    \label{#3}
+  \end{figure*}}
+
+\title{FirstGreen: HPC-Inspired Parallelism Extraction and Scheduling for Coding Agents}
+\author{\FGAuthor}
+\date{Technical report for FirstGreen \FGReleaseVersion}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Coding agents are commonly scaled by opening more independent sessions, but session count is not
+application parallelism. Software-engineering goals contain dependencies, write conflicts, serial
+verification, and variable-duration work that limit useful concurrency. FirstGreen is a local-first
+runtime that applies an HPC perspective to this problem. It extracts a bounded, reviewable task DAG
+from a repository and goal; deterministically compiles dependencies, conflicts, resources, and
+verification eligibility; estimates work, span, critical path, and exposed width; and schedules
+isolated coding-agent attempts under explicit capacity. Verification supplies the completion
+boundary required to measure makespan without treating an agent's self-report as success. We
+evaluate the same production path with deterministic capacity tests, a controlled-live strong-
+scaling matrix, a ready-queue ablation, and Python and JavaScript end-to-end cases. The artifact
+publishes frozen inputs, append-only raw outcomes, traces, and negative results. This report asks a
+narrow systems question: when a software task exposes safe parallel work, how much of that
+parallelism can an agent runtime convert into a shorter time to verified delivery, and where does
+the speedup saturate?
+\end{abstract}
+
+\section{Introduction}
+
+Running multiple coding-agent sessions in parallel is easy. Deciding which work is independent,
+when it is safe to launch, and whether additional capacity can shorten the critical path is not.
+A goal may be logically sequential, may contain hidden write conflicts, or may expose several
+branches followed by a join. Even a wide graph can fail to scale when repository setup,
+verification, integration, or provider latency dominates. Counting agents therefore confuses
+allocated capacity with exploitable parallelism.
+
+FirstGreen treats a coding task as a small parallel program. A repository plus an engineering goal
+is transformed into semantic work units and then into an approved execution graph. The runtime
+uses that graph, rather than independent chat sessions, to make dispatch decisions. Its primary
+objective is shorter makespan to a valid delivered result. Reliability mechanisms are necessary
+measurement and safety boundaries: without scheduler-owned verification, a fast but incorrect
+answer would be recorded as acceleration.
+
+This artifact makes four contributions:
+
+\begin{enumerate}
+  \item an end-to-end product path from repository and goal to a bounded, reviewable parallel DAG;
+  \item a deterministic compiler that owns graph edges, conflict locks, safety eligibility, and
+        work/span analysis even when an LLM proposes semantic work units;
+  \item a production scheduler with critical-path ranking, unified capacity and resource admission,
+        isolated workspaces, explicit verification, and observable decisions; and
+  \item a reproducible evaluation package that separates scripted runtime evidence from live-agent
+        scaling and preserves failed, sequential, and negative outcomes.
+\end{enumerate}
+
+FirstGreen is not a cluster control plane, an autonomous merge service, or an ML scheduler. The
+release targets a local, inspectable systems artifact.
+
+\section{Problem Formulation}
+
+For an approved task DAG $G=(V,E)$, let each task $v$ have a frozen estimated duration $d(v)$.
+Total work and critical-path span are
+
+\begin{equation}
+  W=\sum_{v\in V}d(v), \qquad
+  L=\max_{p\in\mathcal{P}(G)}\sum_{v\in p}d(v).
+\end{equation}
+
+$W/L$ is an upper-bound indicator of exposed parallelism, not a speedup promise. For a measured
+$N$-slot execution with wall time $T_N$, strong-scaling speedup and efficiency are
+
+\begin{equation}
+  S_N=T_1/T_N, \qquad E_N=S_N/N.
+\end{equation}
+
+These quantities are meaningful only when each cell replays the same frozen plan, worker model,
+verification contract, and stopping condition. FirstGreen defines completion as a verified final
+delivery. Failed cells remain failed rather than becoming missing or being replaced after tuning.
+
+The runtime minimizes time to that boundary subject to DAG dependencies, planned write/resource
+conflicts, root and subagent capacity, verifier capacity, replay-safety rules, and user approval.
+The immediate research questions are:
+
+\begin{itemize}
+  \item Can repository-aware extraction find useful branch/join structure while honestly returning
+        sequential when it cannot?
+  \item Does increasing root capacity reduce makespan for one fixed live DAG, and at what capacity
+        does the graph or runtime saturate?
+  \item Does bottom-level critical-path ranking improve a scheduler-sensitive workload over stable
+        task order without changing the graph?
+  \item Does the product path transfer beyond its Python testbed to an independent JavaScript repo?
+\end{itemize}
+
+\section{Systems Context}
+
+FirstGreen applies established parallel-systems ideas to agentic software work rather than claiming
+a new scheduling theorem. Graham's analysis of precedence-constrained multiprocessor scheduling
+shows why adding processors does not imply proportional speedup and can expose timing anomalies
+\cite{graham1966}. The work/span vocabulary and emphasis on critical-path depth follow the same
+tradition; work-stealing analysis likewise separates total work from the infinite-processor span
+\cite{blumofe1999}. FirstGreen differs because tasks are coarse, semantically extracted, modify
+shared artifacts, and have stochastic remote execution time. Its deterministic conflict compiler
+and verification boundary therefore form part of the schedulable program.
+
+Tail-tolerant services use redundant requests to limit latency variation \cite{dean2013}. FirstGreen
+supports bounded delayed hedging for explicitly replay-safe tasks, but disables it in the public
+strong-scaling matrix so speculative replicas cannot be confused with parallelism extracted from
+the DAG. The present report evaluates a local runtime and does not compare commercial agent
+products or claim distributed-cluster scale.
+
+\section{Design}
+
+\fgfigure{figures/system-overview}{FirstGreen's product path. Benchmarking freezes and replays
+an approved plan through the same scheduler; it does not introduce a second execution model.}{fig:system}
+
+\subsection{Bounded parallelism extraction}
+
+The scanner produces a read-only, bounded repository map. A semantic planner may propose work
+units, artifacts, likely paths, duration hints, and verifier commands, but its proposal is not an
+execution plan. Deterministic validation enforces task-count and depth bounds, denied paths,
+artifact producers and consumers, acyclicity, and verification eligibility. Overlapping planned
+writes compile to capacity-one resources rather than being left as a prompt convention.
+
+The compiled plan records task estimates and their provenance, $W$, $L$, critical paths, initial
+ready width, $W/L$, and a hard-bounded root-slot recommendation. The user reviews this material
+before approval. A task with insufficient safe parallelism is reported as sequential; the planner
+is not forced to invent branches.
+
+\subsection{Scheduling and admission}
+
+The production ready queue supports a stable baseline and bottom-level critical-path rank. Ties
+fall back deterministically. Admission considers dependency readiness, root capacity, subagent
+budgets, write/resource locks, workspace availability, and shared verifier capacity. Holding a task
+on a conflict does not consume a root slot when unrelated ready work can run.
+
+Concurrency policies have hard minima and maxima, a static fallback, and a persisted decision log.
+Delayed hedging is separate from failure retry and is disabled unless a task is explicitly replay-
+safe. The v0.1 public scaling matrix disables hedging so replica work cannot be mistaken for graph
+parallelism.
+
+\subsection{Completion and observability}
+
+Each attempt runs in a dedicated Git worktree; the main working tree is never modified. Scheduler-
+owned command and changed-path checks decide whether an attempt is green. A SQLite transaction
+selects at most one verified winner. Multi-task sinks are composed into a separate delivery
+worktree and verified again. The runtime persists state transitions, ready selections, admission
+holds, verifier waits, attempt intervals, sanitized token accounting when available, and final
+delivery status. It exports a Chrome/Perfetto trace so idle time and saturation can be explained.
+
+\section{Evaluation Method}
+
+The evidence records source-revision identifiers \texttt{\FGRamseySourceRevision} for Ramsey,
+\texttt{\FGJavaScriptSourceRevision} for the JavaScript case, and
+\texttt{\FGCPAblationSourceRevision} for the ready-queue ablation. They identify the frozen
+pre-release executions but are not reachable commits in the privacy-compacted public history. The
+public source is fixed by the immutable release tag \texttt{\FGReleaseRevision}. Experiments were run on \FGHostSummary{} on \FGExperimentDate. Live work
+uses \FGPlannerModel{}; reasoning effort is \FGReasoningEffort{}. Exact base commits, issue hashes,
+Manifest hashes, command lines, and validity rules are included in the evidence bundle. Its SHA-256
+is published in \FGEvidenceBundleChecksum{} to avoid a self-referential archive hash.
+
+The evidence has four deliberately separate layers. First, a deterministic fake-worker branch/join
+matrix runs at 1/2/4/8/16 slots to validate scheduler capacity, accounting, worktrees, verification,
+delivery, and trace export. Second, the frozen Ramsey workload runs a controlled-live
+\FGRamseyRuns{} matrix. Its ready width is four; eight slots test saturation rather than eight-way
+work. Third, byte-equivalent stable and critical-path Manifests run three times each with two root
+slots. Only ready-queue policy differs. Fourth, TinyShop and an independent Node.js checkout
+repository exercise extraction, approval, execution, and delivery as qualitative case studies. The
+ablation preserves the frozen one-verifier capacity while replaying two root slots.
+
+The benchmark journal is append-only. $T_1$ is the first valid one-slot observation defined by the
+public methodology. No timeout, failed verification, sequential extraction, or interrupted cell is
+silently excluded. Provider queue time and financial cost are not claimed when the installed CLI
+does not expose them.
+
+\section{Results}
+
+\subsection{Runtime capacity and live strong scaling}
+
+The scripted workload completed in \FGScriptedOne, \FGScriptedTwo, \FGScriptedFour,
+\FGScriptedEight, and \FGScriptedSixteen{} seconds at 1, 2, 4, 8, and 16 slots respectively. This
+is orchestration evidence, not live coding speed. Its four branches and serial join explain the
+efficiency decline after the exposed width is exhausted.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Controlled-live Ramsey raw cells. $T_N$ is wall time in seconds; $S_N$ and $E_N$ use the
+first valid one-slot cell as the frozen baseline.}
+\label{tab:ramsey}
+\begin{tabular}{rrrrr}
+\toprule
+Slots & Rep. & $T_N$ & $S_N$ & $E_N$ \\
+\midrule
+1 & 1 & \FGRamseyOneRepOneTime & \FGRamseyOneRepOneSpeedup & \FGRamseyOneRepOneEfficiency \\
+1 & 2 & \FGRamseyOneRepTwoTime & \FGRamseyOneRepTwoSpeedup & \FGRamseyOneRepTwoEfficiency \\
+2 & 1 & \FGRamseyTwoRepOneTime & \FGRamseyTwoRepOneSpeedup & \FGRamseyTwoRepOneEfficiency \\
+2 & 2 & \FGRamseyTwoRepTwoTime & \FGRamseyTwoRepTwoSpeedup & \FGRamseyTwoRepTwoEfficiency \\
+4 & 1 & \FGRamseyFourRepOneTime & \FGRamseyFourRepOneSpeedup & \FGRamseyFourRepOneEfficiency \\
+4 & 2 & \FGRamseyFourRepTwoTime & \FGRamseyFourRepTwoSpeedup & \FGRamseyFourRepTwoEfficiency \\
+8 & 1 & \FGRamseyEightRepOneTime & \FGRamseyEightRepOneSpeedup & \FGRamseyEightRepOneEfficiency \\
+8 & 2 & \FGRamseyEightRepTwoTime & \FGRamseyEightRepTwoSpeedup & \FGRamseyEightRepTwoEfficiency \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FGRamseyOutcome
+
+\fgwidefigure{figures/ramsey-scaling}{Controlled-live strong scaling for one frozen approved DAG.
+Failed or invalid cells are shown rather than imputed.}{fig:scaling}
+
+\fgfigure{figures/ramsey-trace}{Representative scheduler trace showing ready work, root-slot
+occupancy, verification, and the serial delivery boundary.}{fig:trace}
+
+\subsection{Scheduling ablation}
+
+The stable policy median was \FGCPStableMedian{} seconds and the critical-path policy median was
+\FGCPCriticalMedian{} seconds. \FGCPOutcome{} The causal evidence is dispatch order and the trace,
+not only the aggregate time. The policy selected the first long-chain task before both side branches
+in all three repetitions and advanced the second chain task before the remaining side branch in two
+repetitions.
+
+\fgfigure{figures/critical-path-ablation}{Stable task order versus bottom-level critical-path
+ordering on the same scheduler-sensitive DAG.}{fig:ablation}
+
+\subsection{Extraction case studies}
+
+For TinyShop, Luna proposed \FGTinyShopTasks{} tasks with shape \FGTinyShopShape.
+\FGTinyShopOutcome{} The case set also includes a sequential goal and a planned write-conflict goal
+to demonstrate that extraction quality is not equated with producing the widest possible DAG.
+
+For the independent JavaScript repository, Luna proposed \FGJavaScriptTasks{} tasks with shape
+\FGJavaScriptShape. \FGJavaScriptOutcome{} Scheduler makespan was \FGJavaScriptMakespan{} seconds.
+This single case supports portability of the product path, not a population-level claim about
+JavaScript projects or planner accuracy.
+
+\fgfigure{figures/javascript-live-timeline}{Sanitized independent JavaScript timeline. Failed
+primaries do not release dependent work; final delivery follows both repairs.}{fig:javascript-timeline}
+
+\section{Limitations and Threats to Validity}
+
+The controlled-live matrix is small, uses one model, one host, and one fixed workload. Repetitions
+capture only limited latency variation. Results do not establish general speedup across repositories,
+models, or providers. Task duration estimates influence critical-path ranking but are not trained
+predictions. Repository maps are bounded and may omit semantic dependencies. Planned path conflicts
+are conservative but cannot prove that two generated patches will integrate cleanly.
+
+Local worktrees isolate edits from the main tree but are not container-grade security boundaries.
+Killing a local CLI process may not guarantee server-side cancellation. Verification commands are
+repository code and must be treated as potentially dangerous. FirstGreen does not automatically
+merge, push, deploy, or execute irreversible external actions.
+
+The extraction case studies are intentionally qualitative. A sequential plan can be a correct
+negative result, while a wide plan can be unsafe or too fine-grained. The live scaling result is
+conditioned on one already-approved DAG and therefore evaluates scheduling capacity rather than
+planner quality. These scopes are separated in every public claim.
+
+\section{Conclusion}
+
+FirstGreen frames coding-agent orchestration as a parallel-systems problem: extract a safe task
+graph, quantify work and span, schedule its critical path under real resource constraints, and
+measure completion only at verified delivery. Its benchmark harness is a thin observer of that
+product path. The public artifact is designed to remain useful if scaling saturates early, a planner
+returns sequential work, or a live cell fails: raw outcomes and traces explain where useful
+parallelism was lost. The resulting project is an inspectable demonstration of parallelism
+extraction, scheduling, isolation, and systems evaluation rather than a multi-session wrapper.
+
+\section*{Artifact Availability}
+
+The tagged source, release assets, evidence archive, reproduction instructions, and checksums are
+available at \url{https://github.com/Perilla-desuwa/firstgreen/releases/tag/v0.1.0-rc1}. The release
+should be cited using the repository's finalized \texttt{CITATION.cff}.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

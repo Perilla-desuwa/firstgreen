@@ -1,0 +1,12 @@
+scenario: S4
+acceptable_decisions:
+  - single_task
+  - decompose_with_conflict
+recommended_parallelism:
+  min: 1
+  max: 1
+risk_level: low
+required_conflict_resource:
+  - app/auth
+forbid_concurrent_writes: true
+execution_allowed: true

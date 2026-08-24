@@ -1,0 +1,157 @@
+{
+  "traceEvents": [
+    {
+      "name": "core-idempotent-checkout [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 372675.0,
+      "dur": 86637315.0,
+      "args": {
+        "task_key": "core-idempotent-checkout",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "checkout-documentation [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 382173.0,
+      "dur": 55130218.0,
+      "args": {
+        "task_key": "checkout-documentation",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "checkout-documentation",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 55410592.0,
+      "dur": 49852.0,
+      "args": {
+        "task_key": "checkout-documentation"
+      }
+    },
+    {
+      "name": "core-idempotent-checkout",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 86747926.0,
+      "dur": 206165.0,
+      "args": {
+        "task_key": "core-idempotent-checkout"
+      }
+    },
+    {
+      "name": "core-idempotent-checkout [repair]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 87298840.0,
+      "dur": 60904388.0,
+      "args": {
+        "task_key": "core-idempotent-checkout",
+        "role": "repair"
+      }
+    },
+    {
+      "name": "core-idempotent-checkout",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 147904805.0,
+      "dur": 234533.0,
+      "args": {
+        "task_key": "core-idempotent-checkout"
+      }
+    },
+    {
+      "name": "idempotent-checkout-tests [primary]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 148574469.0,
+      "dur": 76157032.0,
+      "args": {
+        "task_key": "idempotent-checkout-tests",
+        "role": "primary"
+      }
+    },
+    {
+      "name": "idempotent-checkout-tests",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 224430306.0,
+      "dur": 234022.0,
+      "args": {
+        "task_key": "idempotent-checkout-tests"
+      }
+    },
+    {
+      "name": "idempotent-checkout-tests [repair]",
+      "cat": "agent",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "agents",
+      "ts": 225112292.0,
+      "dur": 63200393.0,
+      "args": {
+        "task_key": "idempotent-checkout-tests",
+        "role": "repair"
+      }
+    },
+    {
+      "name": "idempotent-checkout-tests",
+      "cat": "verifier",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "verifier",
+      "ts": 287998767.0,
+      "dur": 253718.0,
+      "args": {
+        "task_key": "idempotent-checkout-tests"
+      }
+    },
+    {
+      "name": "final delivery",
+      "cat": "integration",
+      "ph": "X",
+      "pid": "firstgreen",
+      "tid": "integration",
+      "ts": 288327620.0,
+      "dur": 747562.0,
+      "args": {}
+    }
+  ],
+  "displayTimeUnit": "ms",
+  "metadata": {
+    "run_id": "run_716ae456f4be41a3b743ee3530fee784",
+    "makespan_seconds": 289.085117,
+    "agent_seconds": 342.029346,
+    "verifier_seconds": 0.97829,
+    "verifier_queue_wait_seconds": 0.0,
+    "average_active_agents": 1.1831440841695076,
+    "root_slot_utilization": 0.5915720420847538,
+    "idle_root_slot_seconds": 236.14088800000007,
+    "idle_reason_observations": {
+      "dependency_limited": 1,
+      "parallelism_exhausted": 0,
+      "resource_locked": 0,
+      "verifier_limited": 0
+    },
+    "attempt_count": 5
+  }
+}

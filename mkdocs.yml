@@ -1,0 +1,11 @@
+site_name: FirstGreen
+docs_dir: docs
+nav:
+  - Home: index.md
+  - Roadmap: ROADMAP.md
+  - Publication package: publication/README.md
+  - Claim/evidence matrix: publication/claim-evidence-matrix.md
+  - Release checklist: publication/release-checklist.md
+  - Security: security-review.md
+  - Known limitations: known-limitations.md
+  - Release notes: release-notes.md

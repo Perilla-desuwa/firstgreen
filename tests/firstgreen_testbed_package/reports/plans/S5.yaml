@@ -1,0 +1,138 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: '# Add order cancellation
+
+
+  Add a `cancelled` order state and a cancellation workflow. A pending order can be
+  cancelled, completed or already-cancelled orders cannot be cancelled, and a successful
+  cancellation sends a fake email. Add focused service and integration tests.'
+issue_hash: bbb5a59cf5bd8b8a8dc483596c407a3095af2441a65788317df9b9af4fa92231
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 2
+  decision: decompose
+  reason: Status and email can start independently before integration.
+  relevant_paths:
+  - app/mailer.py
+  - app/models.py
+  - app/orders/routes.py
+  - app/orders/service.py
+  - tests/test_orders.py
+tasks:
+- id: cancelled_status
+  objective: Add cancelled order state.
+  produces:
+  - cancelled-order-state
+  requires: []
+  likely_paths:
+  - app/models.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: cancellation_service
+  objective: Implement cancellation rules.
+  produces:
+  - order-cancellation-service
+  requires:
+  - cancelled-order-state
+  likely_paths:
+  - app/orders/service.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies:
+  - cancelled_status
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: cancellation_email
+  objective: Add cancellation email.
+  produces:
+  - cancellation-email
+  requires: []
+  likely_paths:
+  - app/mailer.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+- id: cancellation_integration
+  objective: Integrate cancellation route and tests.
+  produces:
+  - cancellation-integration
+  requires:
+  - order-cancellation-service
+  - cancellation-email
+  likely_paths:
+  - app/orders/routes.py
+  - tests/test_orders.py
+  verification_hints:
+  - run deterministic TinyShop tests
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies:
+  - cancellation_email
+  - cancellation_service
+  - cancelled_status
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: low
+validation:
+  valid: true
+  errors: []
+  warnings: []
+  repairs: []
+approved: false
+user_edited: false
+cache_key: 4573fb18aae1e907cc92a4ffaf18d314ae6519320d33644c0d83fc69bcbaca6c
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

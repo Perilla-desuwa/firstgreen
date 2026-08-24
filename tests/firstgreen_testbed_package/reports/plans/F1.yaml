@@ -1,0 +1,59 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: Reject and safely repair fake scenario F1.
+issue_hash: e3a200393371164f0795a22757994578f45ebbd8f412fc6ef48183c63c974b3f
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 1
+  decision: single_task
+  reason: deterministic test fixture
+  relevant_paths:
+  - app/main.py
+  - tests/test_health.py
+tasks:
+- id: merged-5c744fa0
+  objective: Implement artifact A.; Implement artifact B.
+  produces:
+  - artifact-a
+  - artifact-b
+  requires: []
+  likely_paths:
+  - app/a.py
+  - app/b.py
+  verification_hints:
+  - pytest -q tests/test_a.py
+  - pytest -q tests/test_b.py
+  risk_tags: []
+  uncertainty: Merged deterministically because proposed boundaries were unsafe.
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: low
+validation:
+  valid: true
+  errors: []
+  warnings:
+  - task merged-5c744fa0 predicts unknown path app/a.py
+  - task merged-5c744fa0 predicts unknown path app/b.py
+  repairs:
+  - 'merged [''task-a'', ''task-b'']: artificial dependency cycle'
+approved: false
+user_edited: false
+cache_key: 34f1c63eca8e234f4049c4c92901c53937002641c5b1eb7c0a83228c86f33b32
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null

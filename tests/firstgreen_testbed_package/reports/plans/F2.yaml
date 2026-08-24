@@ -1,0 +1,59 @@
+plan_version: 1
+planner_version: tinyshop-fake-v1
+issue: Reject and safely repair fake scenario F2.
+issue_hash: 9acb30c4ad1bdd11ba3fa76bfd20dc12156e35055bc2137145efc4bb2253eac3
+repo: .
+commit_sha: 99ede08ff4a6b99551c4388780a5ef5f761f72f7
+repository_map_version: repo-map-v1
+decision:
+  recommended_parallelism: 1
+  decision: single_task
+  reason: Deterministic validation selected the safer single-task fallback.
+  relevant_paths:
+  - app/main.py
+  - tests/test_health.py
+tasks:
+- id: issue
+  objective: Reject and safely repair fake scenario F2.
+  produces:
+  - issue-result
+  requires: []
+  likely_paths:
+  - app/main.py
+  - tests/test_health.py
+  verification_hints:
+  - run repository verifier
+  risk_tags: []
+  uncertainty: null
+  read_only: false
+  dependencies: []
+  verifier:
+  - - python
+    - -m
+    - pytest
+  - - python
+    - -m
+    - ruff
+    - check
+    - .
+  resources: []
+conflicts: []
+external_artifacts: []
+risk_level: low
+validation:
+  valid: true
+  errors: []
+  warnings: []
+  repairs:
+  - task think-about-problem is empty or coordination-only
+  - write task think-about-problem has no bounded likely paths
+  - task discuss-solution is empty or coordination-only
+  - write task discuss-solution has no bounded likely paths
+  - fell back to one task
+approved: false
+user_edited: false
+cache_key: efd7021e17b13f6cd81a8ef194930a117f09592086aa30febc7b2596429b9a30
+planning_latency_seconds: 0.0
+planning_input_tokens: null
+planning_output_tokens: null
+planning_estimated_cost: null
